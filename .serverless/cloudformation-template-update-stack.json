@@ -62,6 +62,18 @@
         "LogGroupName": "/aws/lambda/serverless-flask-dev-app"
       }
     },
+    "GetUserLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/serverless-flask-dev-getUser"
+      }
+    },
+    "CreateUserLogGroup": {
+      "Type": "AWS::Logs::LogGroup",
+      "Properties": {
+        "LogGroupName": "/aws/lambda/serverless-flask-dev-createUser"
+      }
+    },
     "IamRoleLambdaExecution": {
       "Type": "AWS::IAM::Role",
       "Properties": {
@@ -165,7 +177,7 @@
           "S3Bucket": {
             "Ref": "ServerlessDeploymentBucket"
           },
-          "S3Key": "serverless/serverless-flask/dev/1581536486091-2020-02-12T19:41:26.091Z/serverless-flask.zip"
+          "S3Key": "serverless/serverless-flask/dev/1581537588973-2020-02-12T19:59:48.973Z/serverless-flask.zip"
         },
         "FunctionName": "serverless-flask-dev-app",
         "Handler": "wsgi_handler.handler",
@@ -189,14 +201,96 @@
         "IamRoleLambdaExecution"
       ]
     },
-    "AppLambdaVersionPJgF50W7NDIWAi0r7RHUYcluKPcVXTLShccWDxFHt4": {
+    "AppLambdaVersionVmfsWvBzp50kFJ7dL2GqWh6hEyUw3TlQXxKEa6Vc": {
       "Type": "AWS::Lambda::Version",
       "DeletionPolicy": "Retain",
       "Properties": {
         "FunctionName": {
           "Ref": "AppLambdaFunction"
         },
-        "CodeSha256": "EovRYlWF2YMz2YyhWJG4GBFSrxK60Mzl7wkgR8gZ3/c="
+        "CodeSha256": "xLwc1SE8BsVWTFgG9+DMRGU8ltzqFzSFc6hz9t2BBms="
+      }
+    },
+    "GetUserLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/serverless-flask/dev/1581537588973-2020-02-12T19:59:48.973Z/serverless-flask.zip"
+        },
+        "FunctionName": "serverless-flask-dev-getUser",
+        "Handler": "wsgi_handler.handler",
+        "MemorySize": 1024,
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        },
+        "Runtime": "python3.6",
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "USERS_TABLE": "users-table-dev"
+          }
+        }
+      },
+      "DependsOn": [
+        "GetUserLogGroup",
+        "IamRoleLambdaExecution"
+      ]
+    },
+    "GetUserLambdaVersionHvq1j4qKCGEcTZSMf1fYUOsM9MCKzReZi9KFf8Fo": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "GetUserLambdaFunction"
+        },
+        "CodeSha256": "xLwc1SE8BsVWTFgG9+DMRGU8ltzqFzSFc6hz9t2BBms="
+      }
+    },
+    "CreateUserLambdaFunction": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": {
+            "Ref": "ServerlessDeploymentBucket"
+          },
+          "S3Key": "serverless/serverless-flask/dev/1581537588973-2020-02-12T19:59:48.973Z/serverless-flask.zip"
+        },
+        "FunctionName": "serverless-flask-dev-createUser",
+        "Handler": "wsgi_handler.handler",
+        "MemorySize": 1024,
+        "Role": {
+          "Fn::GetAtt": [
+            "IamRoleLambdaExecution",
+            "Arn"
+          ]
+        },
+        "Runtime": "python3.6",
+        "Timeout": 6,
+        "Environment": {
+          "Variables": {
+            "USERS_TABLE": "users-table-dev"
+          }
+        }
+      },
+      "DependsOn": [
+        "CreateUserLogGroup",
+        "IamRoleLambdaExecution"
+      ]
+    },
+    "CreateUserLambdaVersionetCgJQwSlqJ5YZd5qQ34r2GZzLoRKrdV0ppzmFZX5o": {
+      "Type": "AWS::Lambda::Version",
+      "DeletionPolicy": "Retain",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "CreateUserLambdaFunction"
+        },
+        "CodeSha256": "xLwc1SE8BsVWTFgG9+DMRGU8ltzqFzSFc6hz9t2BBms="
       }
     },
     "ApiGatewayRestApi": {
@@ -315,7 +409,7 @@
         "MethodResponses": []
       }
     },
-    "ApiGatewayDeployment1581536472188": {
+    "ApiGatewayDeployment1581537573722": {
       "Type": "AWS::ApiGateway::Deployment",
       "Properties": {
         "RestApiId": {
@@ -397,7 +491,19 @@
     "AppLambdaFunctionQualifiedArn": {
       "Description": "Current Lambda function version",
       "Value": {
-        "Ref": "AppLambdaVersionPJgF50W7NDIWAi0r7RHUYcluKPcVXTLShccWDxFHt4"
+        "Ref": "AppLambdaVersionVmfsWvBzp50kFJ7dL2GqWh6hEyUw3TlQXxKEa6Vc"
+      }
+    },
+    "GetUserLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "GetUserLambdaVersionHvq1j4qKCGEcTZSMf1fYUOsM9MCKzReZi9KFf8Fo"
+      }
+    },
+    "CreateUserLambdaFunctionQualifiedArn": {
+      "Description": "Current Lambda function version",
+      "Value": {
+        "Ref": "CreateUserLambdaVersionetCgJQwSlqJ5YZd5qQ34r2GZzLoRKrdV0ppzmFZX5o"
       }
     },
     "ServiceEndpoint": {
